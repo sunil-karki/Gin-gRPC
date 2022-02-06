@@ -1,6 +1,6 @@
 package service
 
-import "webfront/entity"
+import "webREST/entity"
 
 type FileService interface {
 	Save(entity.File) entity.File

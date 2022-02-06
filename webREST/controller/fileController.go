@@ -1,8 +1,8 @@
 package controller
 
 import (
-	"webfront/entity"
-	"webfront/service"
+	"webREST/entity"
+	"webREST/service"
 
 	"github.com/gin-gonic/gin"
 )

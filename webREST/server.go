@@ -1,8 +1,8 @@
 package main
 
 import (
-	"webfront/controller"
-	"webfront/service"
+	"webREST/controller"
+	"webREST/service"
 
 	"github.com/gin-gonic/gin"
 )
@@ -21,11 +21,11 @@ func main() {
 	// 	})
 	// })
 
-	server.GET("/posts", func(ctx *gin.Context) {
+	server.GET("/files", func(ctx *gin.Context) {
 		ctx.JSON(200, FileController.FindAll())
 	})
 
-	server.POST("/posts", func(ctx *gin.Context) {
+	server.POST("/files", func(ctx *gin.Context) {
 		ctx.JSON(200, FileController.Save(ctx))
 	})
 
