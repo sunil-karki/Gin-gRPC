@@ -1,16 +1,16 @@
 package controller
 
 import (
-	"webREST/entity"
+	"webREST/model"
 	"webREST/service"
 
 	"github.com/gin-gonic/gin"
 )
 
 type FileController interface {
-	FindAll() []entity.File
+	FindAll() []model.File
 	//To access data that comes with this context
-	Save(ctx *gin.Context) entity.File
+	Save(ctx *gin.Context) error
 }
 
 type controller struct {
@@ -23,13 +23,17 @@ func New(service service.FileService) FileController {
 	}
 }
 
-func (c *controller) FindAll() []entity.File {
+func (c *controller) FindAll() []model.File {
 	return c.service.FindAll()
 }
 
-func (c *controller) Save(ctx *gin.Context) entity.File {
-	var file entity.File
-	ctx.BindJSON(&file)
+func (c *controller) Save(ctx *gin.Context) error {
+	var file model.File
+	// ctx.BindJSON(&file)
+	err := ctx.ShouldBindJSON(&file)
+	if err != nil {
+		return err
+	}
 	c.service.Save(file)
-	return file
+	return nil
 }

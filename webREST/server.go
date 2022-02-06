@@ -2,6 +2,7 @@ package main
 
 import (
 	"io"
+	"net/http"
 	"os"
 	authservice "webREST/authService"
 	"webREST/controller"
@@ -35,11 +36,16 @@ func main() {
 	// })
 
 	server.GET("/files", func(ctx *gin.Context) {
-		ctx.JSON(200, FileController.FindAll())
+		ctx.JSON(http.StatusOK, FileController.FindAll())
 	})
 
 	server.POST("/files", func(ctx *gin.Context) {
-		ctx.JSON(200, FileController.Save(ctx))
+		err := FileController.Save(ctx)
+		if err != nil {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		} else {
+			ctx.JSON(http.StatusOK, gin.H{"message": "Input payload is valid."})
+		}
 	})
 
 	server.Run(":8080")
