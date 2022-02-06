@@ -3,6 +3,7 @@ package main
 import (
 	"io"
 	"os"
+	authservice "webREST/authService"
 	"webREST/controller"
 	loggingservice "webREST/loggingService"
 	"webREST/service"
@@ -25,7 +26,7 @@ func main() {
 
 	// server := gin.Default()
 	server := gin.New()
-	server.Use(gin.Recovery(), loggingservice.Logger())
+	server.Use(gin.Recovery(), loggingservice.Logger(), authservice.BasicAuth())
 
 	// server.GET("/test", func(ctx *gin.Context) {
 	// 	ctx.JSON(200, gin.H{
