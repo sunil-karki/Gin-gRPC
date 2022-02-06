@@ -1,7 +1,10 @@
 package main
 
 import (
+	"io"
+	"os"
 	"webREST/controller"
+	loggingservice "webREST/loggingService"
 	"webREST/service"
 
 	"github.com/gin-gonic/gin"
@@ -12,8 +15,17 @@ var (
 	FileController controller.FileController = controller.New(fileService)
 )
 
+func setupLogOutput() {
+	f, _ := os.Create("application.log")
+	gin.DefaultWriter = io.MultiWriter(f, os.Stdout)
+}
+
 func main() {
-	server := gin.Default()
+	setupLogOutput()
+
+	// server := gin.Default()
+	server := gin.New()
+	server.Use(gin.Recovery(), loggingservice.Logger())
 
 	// server.GET("/test", func(ctx *gin.Context) {
 	// 	ctx.JSON(200, gin.H{
